@@ -17,11 +17,19 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleResize = () => setWindowWidth(window.innerWidth);
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   const navLinks = [
@@ -37,10 +45,13 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={{
+              opacity: (isScrolled || windowWidth >= 768) ? 1 : 0,
+              x: (isScrolled || windowWidth >= 768) ? 0 : -20
+            }}
             className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
           >
-            Portfolio.
+            Anil Kumar.
           </motion.div>
           <div className="hidden md:flex space-x-8">
             {navLinks.map((link, idx) => (
@@ -57,7 +68,11 @@ const Navbar = () => {
             ))}
           </div>
           <div className="md:hidden">
-            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-300">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-300 hover:text-white transition-colors p-2"
+              aria-label="Toggle menu"
+            >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -67,25 +82,40 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-slate-800 border-b border-slate-700"
-          >
-            <div className="px-4 pt-2 pb-6 space-y-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block px-3 py-2 text-gray-300 hover:bg-slate-700 rounded-md"
-                >
-                  {link.name}
-                </a>
-              ))}
-            </div>
-          </motion.div>
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 md:hidden"
+            />
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 bottom-0 w-64 bg-slate-800 z-50 md:hidden shadow-2xl border-l border-slate-700"
+            >
+              <div className="flex justify-end p-6">
+                <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300">
+                  <X size={24} />
+                </button>
+              </div>
+              <div className="px-6 py-4 space-y-6">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block text-xl font-medium text-gray-300 hover:text-blue-400 transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </nav>
@@ -375,9 +405,9 @@ function App() {
       <main>
         <Hero />
         <About />
+        <Contact />
         <Skills />
         <Projects />
-        <Contact />
       </main>
       <Footer />
     </div>
