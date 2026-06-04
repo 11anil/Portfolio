@@ -44,7 +44,9 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   ];
 
   return (
-    <nav className="fixed top-6 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full transition-all duration-300 ease-in-out">
+    <nav className={`fixed top-6 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full transition-all duration-300 ease-in-out ${
+      isScrolled && !isMobileMenuOpen ? '-translate-y-28 opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
+    }`}>
       <div className={`mx-auto rounded-full border transition-all duration-300 ${
         isScrolled 
           ? 'bg-[#fafaf9]/85 dark:bg-[#0d0d0c]/85 backdrop-blur-md shadow-md py-2.5 px-6 border-neutral-200/60 dark:border-neutral-800/60' 
