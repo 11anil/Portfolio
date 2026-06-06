@@ -44,14 +44,12 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   ];
 
   return (
-    <nav className={`fixed top-6 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full transition-all duration-300 ease-in-out ${
-      isScrolled && !isMobileMenuOpen ? '-translate-y-28 opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
-    }`}>
-      <div className={`mx-auto rounded-full border transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-[#fafaf9]/85 dark:bg-[#0d0d0c]/85 backdrop-blur-md shadow-md py-2.5 px-6 border-neutral-200/60 dark:border-neutral-800/60' 
-          : 'bg-white/95 dark:bg-[#181816]/95 border-neutral-200/50 dark:border-neutral-800/50 py-3.5 px-6 shadow-sm'
+    <nav className={`fixed top-6 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full transition-all duration-300 ease-in-out ${isScrolled && !isMobileMenuOpen ? '-translate-y-28 opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}>
+      <div className={`mx-auto rounded-full border transition-all duration-300 ${isScrolled
+        ? 'bg-[#fafaf9]/85 dark:bg-[#0d0d0c]/85 backdrop-blur-md shadow-md py-2.5 px-6 border-neutral-200/60 dark:border-neutral-800/60'
+        : 'bg-white/95 dark:bg-[#181816]/95 border-neutral-200/50 dark:border-neutral-800/50 py-3.5 px-6 shadow-sm'
+        }`}>
         <div className="flex justify-between items-center">
           {/* Logo & Avatar */}
           <motion.div
@@ -60,9 +58,9 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
             className="flex items-center gap-2.5 cursor-pointer"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            <img 
-              src="/avatar.png" 
-              alt="Anil Kumar" 
+            <img
+              src="/avatar.png"
+              alt="Anil Kumar"
               className="w-8 h-8 rounded-full object-cover border border-neutral-200 dark:border-neutral-800"
             />
             <span className="font-sans font-semibold text-xs tracking-wide text-[#37322f] dark:text-neutral-50">
@@ -335,7 +333,7 @@ const Skills = () => {
     <section id="skills" className="scroll-mt-24 py-28 border-t border-neutral-200/50 dark:border-neutral-800/50 relative overflow-hidden">
       <div className="max-w-5xl mx-auto px-6 sm:px-8 relative z-10">
         <div className="grid md:grid-cols-3 gap-12 md:gap-16 items-start">
-          
+
           {/* Sticky Left Column: Heading & Copy */}
           <div className="md:sticky md:top-28 space-y-6">
             <span className="text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-neutral-400 dark:text-neutral-500 font-sans uppercase block">
@@ -373,7 +371,7 @@ const Skills = () => {
                     {cat.title}
                   </h3>
                 </div>
-                
+
                 <div className="flex flex-wrap gap-2">
                   {cat.skills.map((skill) => (
                     <span
@@ -387,7 +385,7 @@ const Skills = () => {
               </motion.div>
             ))}
           </div>
-          
+
         </div>
       </div>
     </section>
@@ -444,7 +442,7 @@ const Experience = () => {
 
               {/* Main Card */}
               <div className="bg-white dark:bg-[#181816] border border-neutral-200/60 dark:border-neutral-800/60 rounded-2xl p-6 sm:p-8 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all duration-300 shadow-sm">
-                
+
                 {/* Header info */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 pb-6 border-b border-neutral-100 dark:border-neutral-800">
                   <div>
@@ -464,7 +462,7 @@ const Experience = () => {
 
                 {/* Grid layout for Details */}
                 <div className="grid md:grid-cols-2 gap-8">
-                  
+
                   {/* Left Column: Responsibilities */}
                   <div className="space-y-4">
                     <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
@@ -482,7 +480,7 @@ const Experience = () => {
 
                   {/* Right Column: Achievements & Tech Stack */}
                   <div className="space-y-6">
-                    
+
                     {/* Achievements */}
                     <div className="space-y-4">
                       <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500 flex items-center gap-2">
@@ -536,7 +534,7 @@ const Projects = () => {
       title: 'Blogify',
       description: 'A full-stack blogging platform with user authentication and rich text editing.',
       tech: ['React', 'Node.js', 'Express', 'Prisma'],
-      link: 'https://github.com/11anil/Blogify'
+      link: 'https://blogify-r8za.vercel.app/'
     },
     {
       title: 'Chess Web App',
@@ -548,7 +546,7 @@ const Projects = () => {
       title: 'TODO NextJS',
       description: 'A modern todo application built with Next.js and server-side features.',
       tech: ['Next.js', 'TypeScript', 'PostgreSQL'],
-      link: 'https://github.com/11anil/TODO-NextJS'
+      link: 'https://todo-next-js-orcin.vercel.app/'
     },
     {
       title: 'News-web',
@@ -560,7 +558,7 @@ const Projects = () => {
       title: 'Dice-game',
       description: 'An interactive 2-player dice game with score tracking and win logic.',
       tech: ['JavaScript', 'HTML', 'CSS'],
-      link: 'https://github.com/11anil/Dice-game'
+      link: 'https://dice-game-kappa-eosin.vercel.app/'
     }
   ];
 
@@ -585,10 +583,10 @@ const Projects = () => {
                   <div className="p-2 rounded-xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 text-neutral-400 group-hover:bg-[#37322f] group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-[#37322f] transition-all duration-200">
                     <Code2 size={16} />
                   </div>
-                  <a 
-                    href={project.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-900 text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
                   >
                     <ExternalLink size={14} />
@@ -604,8 +602,8 @@ const Projects = () => {
               <div className="px-6 pb-6 pt-0 mt-auto">
                 <div className="flex flex-wrap gap-1.5">
                   {project.tech.map((t) => (
-                    <span 
-                      key={t} 
+                    <span
+                      key={t}
                       className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-900/60 border border-neutral-200/60 dark:border-neutral-800/50 text-neutral-500 dark:text-neutral-400"
                     >
                       {t}
@@ -651,18 +649,18 @@ const Contact = () => {
             </a>
           </div>
           <div className="pt-8 flex justify-center space-x-6">
-            <a 
-              href="https://github.com/11anil" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://github.com/11anil"
+              target="_blank"
+              rel="noopener noreferrer"
               className="p-2.5 rounded-full border border-neutral-300 dark:border-neutral-800 text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-all shadow-sm"
             >
               <FaGithub size={20} />
             </a>
-            <a 
-              href="https://www.linkedin.com/in/anil-kumar-0a40a1220" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://www.linkedin.com/in/anil-kumar-0a40a1220"
+              target="_blank"
+              rel="noopener noreferrer"
               className="p-2.5 rounded-full border border-neutral-300 dark:border-neutral-800 text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-all shadow-sm"
             >
               <FaLinkedin size={20} />
