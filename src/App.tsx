@@ -12,7 +12,8 @@ import {
   Wrench,
   Briefcase,
   Calendar,
-  Trophy
+  Trophy,
+  X
 } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 
@@ -529,12 +530,43 @@ const Experience = () => {
 
 // --- Projects Component ---
 const Projects = () => {
-  const projects = [
+  interface Project {
+    title: string;
+    description: string;
+    detailedDescription?: string;
+    features?: { title: string; detail: string }[];
+    tech: string[];
+    link: string;
+  }
+
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const projects: Project[] = [
     {
       title: 'Blogify',
       description: 'A full-stack blogging platform with user authentication and rich text editing.',
       tech: ['React', 'Node.js', 'Express', 'Prisma'],
       link: 'https://blogify-r8za.vercel.app/'
+    },
+    {
+      title: 'AI Content Generator',
+      description: 'Welcome to the AI Content Generator app! This application leverages cutting-edge AI technology to generate high-quality, customizable content with ease.',
+      detailedDescription: 'Built with a robust tech stack, it ensures efficient performance, scalability, and an intuitive user experience.',
+      features: [
+        { title: 'AI-Powered Content Generation', detail: 'Powered by Gemini, the AI model generates a wide range of content for various use cases (blogs, articles, social media, etc.).' },
+        { title: 'User Authentication', detail: 'Secure user authentication and management via Clerk.' },
+        { title: 'Scalable Backend', detail: 'Built on Postgres SQL, ensuring a reliable and scalable database structure.' },
+        { title: 'Modern Frontend', detail: 'The app is developed using Next.js for server-side rendering, making it fast and SEO-friendly.' },
+        { title: 'Responsive Design', detail: 'Styled with Tailwind CSS for a modern, responsive design that works across all devices.' }
+      ],
+      tech: ['Next.js', 'Clerk', 'Postgres SQL', 'Tailwind CSS', 'Gemini AI'],
+      link: 'https://ai-content-gen-puce.vercel.app/'
+    },
+    {
+      title: 'Dice-game',
+      description: 'An interactive 2-player dice game with score tracking and win logic.',
+      tech: ['JavaScript', 'HTML', 'CSS'],
+      link: 'https://dice-game-kappa-eosin.vercel.app/'
     },
     {
       title: 'Chess Web App',
@@ -554,12 +586,6 @@ const Projects = () => {
       tech: ['React', 'API', 'Tailwind'],
       link: 'https://github.com/11anil/News-web'
     },
-    {
-      title: 'Dice-game',
-      description: 'An interactive 2-player dice game with score tracking and win logic.',
-      tech: ['JavaScript', 'HTML', 'CSS'],
-      link: 'https://dice-game-kappa-eosin.vercel.app/'
-    }
   ];
 
   return (
@@ -576,7 +602,8 @@ const Projects = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: idx * 0.05, duration: 0.4 }}
               viewport={{ once: true }}
-              className="group bg-white dark:bg-[#181816] rounded-2xl overflow-hidden border border-neutral-200/60 dark:border-neutral-800/60 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all duration-300 shadow-sm flex flex-col justify-between"
+              onClick={() => setSelectedProject(project)}
+              className="group bg-white dark:bg-[#181816] rounded-2xl overflow-hidden border border-neutral-200/60 dark:border-neutral-800/60 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all duration-300 shadow-sm flex flex-col justify-between cursor-pointer transform hover:-translate-y-1 active:scale-[0.98]"
             >
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -587,6 +614,7 @@ const Projects = () => {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-900 text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
                   >
                     <ExternalLink size={14} />
@@ -595,7 +623,7 @@ const Projects = () => {
                 <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100 mb-2 group-hover:text-neutral-800 dark:group-hover:text-neutral-200 transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-neutral-500 dark:text-neutral-400 mb-6 text-sm font-sans font-light leading-relaxed">
+                <p className="text-neutral-500 dark:text-neutral-400 mb-6 text-sm font-sans font-light leading-relaxed line-clamp-3">
                   {project.description}
                 </p>
               </div>
@@ -615,6 +643,113 @@ const Projects = () => {
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 15 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 15 }}
+              transition={{ type: 'spring', duration: 0.4 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-[#fafaf9] dark:bg-[#181816] border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-2xl font-sans"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-6 right-6 p-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white hover:bg-neutral-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-all cursor-pointer"
+                aria-label="Close modal"
+              >
+                <X size={16} />
+              </button>
+
+              {/* Title & Category/Tags */}
+              <div className="mb-6 pr-12">
+                <span className="text-[10px] font-mono tracking-wider text-neutral-400 dark:text-neutral-500 uppercase block mb-2">
+                  Project Detail
+                </span>
+                <h3 className="text-xl sm:text-2xl font-serif font-normal text-[#37322f] dark:text-neutral-50">
+                  {selectedProject.title}
+                </h3>
+              </div>
+
+              {/* Body */}
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2">
+                    Description
+                  </h4>
+                  <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed font-sans font-light">
+                    {selectedProject.description}
+                  </p>
+                  {selectedProject.detailedDescription && (
+                    <p className="mt-3 text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed font-sans font-light">
+                      {selectedProject.detailedDescription}
+                    </p>
+                  )}
+                </div>
+
+                {/* Features if present */}
+                {selectedProject.features && (
+                  <div>
+                    <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-3">
+                      Key Features
+                    </h4>
+                    <ul className="space-y-3">
+                      {selectedProject.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start gap-2.5 text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed font-sans font-light">
+                          <span className="text-neutral-400 dark:text-neutral-500 mt-1.5 text-[8px] shrink-0">■</span>
+                          <div>
+                            <strong className="font-semibold text-neutral-800 dark:text-neutral-200">{feature.title}: </strong>
+                            <span>{feature.detail}</span>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Tech Stack */}
+                <div>
+                  <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-3">
+                    Technologies
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="text-xs font-mono px-3 py-1 rounded bg-neutral-100 dark:bg-neutral-900/60 border border-neutral-200/60 dark:border-neutral-800/50 text-neutral-500 dark:text-neutral-400"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="pt-4 flex flex-col sm:flex-row gap-4">
+                  <a
+                    href={selectedProject.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-[#37322f] hover:bg-[#272422] active:bg-[#1a1816] active:text-white text-white dark:bg-white dark:hover:bg-neutral-100 dark:active:bg-neutral-200 dark:active:text-neutral-900 dark:text-neutral-900 font-medium px-6 py-2.5 rounded-full shadow-sm hover:shadow-md transition-all duration-200 font-sans text-sm"
+                  >
+                    <span>Visit Live Site</span>
+                    <ExternalLink size={14} />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
